@@ -1,0 +1,54 @@
+
+/*页脚*/
+
+.footer
+{
+    width: 100%;
+    padding-top: 300px;
+
+    background: #e9f5fe;
+}
+
+.footercontact
+{
+    font-size: 13px;
+    line-height: 25px;
+
+    padding-bottom: 25px;
+    padding-left: 10px;
+
+    text-align: left;
+
+    color: #0f0e0e;
+}
+
+.footerlogo
+{
+    margin: auto;
+    padding-left: 20px;
+}
+
+.footerQR
+{
+    padding-top: auto;
+    padding-bottom: 20px;
+
+    text-align: center;
+
+    color: #0f0e0e;
+}
+
+.footerQR p
+{
+    font-size: 14px;
+
+    padding-top: 15px;
+}
+
+@media (max-width: 768px)
+{
+    .footercontact
+    {
+        text-align: center;
+    }
+}
