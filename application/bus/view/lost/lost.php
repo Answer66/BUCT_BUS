@@ -105,14 +105,14 @@
 
     <div class="row demo-row"  />
 
-
+    <form name="lostSearch" action="{:url('buct_bus/bus/lost/lostSearch')}" method="post" class="form">
     <div class="col-xs-3">
 
 
         <!-- input type="text" id="selectDate" placeholder="乘车日期"  class="form-control"    onfocus=this.blur()  style="width:80%;background:#1abc9c;color:white"  / -->
 
 
-        <input type="text" id="selectDate" placeholder="乘车日期"  class="form-control"    onfocus=this.blur()  style="width:80%;"  />
+        <input type="text" id="selectDate" name="lossDate" placeholder="遗失日期(忘记可不选)"  class="form-control"    onfocus=this.blur()  style="width:80%;"  />
         <span style="font-size:14px;color:#bbb;position:absolute;left:215px;top:4px;line-height:30px"><img src="__path__/Flat-UI-master/img/rili.jpg" width="30"></span>
 
     </div>
@@ -120,39 +120,38 @@
 
 
     <div class="col-xs-3">
-        <label>乘车区间</label>
+        <label>遗失车辆编号</label>
         &nbsp;
-        <select class="form-control select select-primary" data-toggle="select">
+        <select name="BusId" class="form-control select select-primary" data-toggle="select">
             <!--select style="background-color:white;color:black" class="form-control select "  data-toggle="select" -->
-
-            <option value="5" selected>不限</option>
-            <option value="0">东校区</option>
-            <option value="1">马甸</option>
-            <option value="2">西三旗</option>
-            <option value="3">新校区</option>
+            <option value="0" selected>忘记可不填</option>
+            {volist name="busList" id="bus"}
+            <option value="{$bus.BusId}">{$bus.BusId}</option>
+            {/volist}
         </select>
     </div>
 
+        <div class="col-xs-3">
+            <div class="row demo-row">
+                <div class="col-xs-6">
+                    <label>丢失物品信息</label>
+                    <input type="text" name = "lostInfo" value="请描述丢失物品" onfocus="this.value=''" onblur="if(this.value==''){this.value='请描述丢失物品'}" />
+                </div>
+            </div>
+        </div>
 
     <div class="col-xs-3">
         <div class="row demo-row">
 
-            <div class="col-xs-6">
-
-
-
-
-            </div>
 
             <div class="col-xs-6">
-                <button type="button" class="btn btn-primary" id="Search" onclick="Search()">搜 索</button>
+                <button type="submit" class="btn btn-primary" id="Search" >搜 索</button>
             </div>
         </div>
 
-
-
     </div>
 
+    </form>
     <div class="col-xs-3">
         <div class="row demo-row">
 
@@ -319,10 +318,10 @@
             closeText: "关闭",//关闭选择框的按钮名称
             yearSuffix: '年', //年的后缀
             showMonthAfterYear: true,//是否把月放在年的后面
-            defaultDate: GetDateStr(1),//默认日期
+            defaultDate: GetDateStr(0),//默认日期
 
-            minDate: GetDateStr(1),//最小日期
-            maxDate: GetDateStr(14),//最大日期
+//            minDate: GetDateStr(1),//最小日期
+//            maxDate: GetDateStr(14),//最大日期
             monthNames: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月'],
             dayNames: ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'],
             dayNamesShort: ['周日', '周一', '周二', '周三', '周四', '周五', '周六'],
@@ -379,6 +378,7 @@
             document.getElementById('textarea').value = s.substring(0, 100);
         }
     }
+
 
 </script>
 </html>

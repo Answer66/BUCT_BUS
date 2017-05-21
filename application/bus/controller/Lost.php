@@ -51,9 +51,91 @@ class Lost extends Controller
         }
     }
 
-    public function busInfo($busId=''){
-        $busInfo = BusModel::get($busId);
-        echo $busInfo->Interval.'<br/>';
+    public function LostSearch(){
+        $view = view("lost");
+        $busList = BusModel::all();
+        $BusId = $_POST['BusId'];
+        $LossDate = $_POST['lossDate'];
+        $LostInfo = $_POST['lostInfo'];
+        trace($BusId);
+        trace($LossDate);
+        trace($LostInfo);
+        if($BusId != 0 && empty($LossDate) && $LostInfo == "请描述丢失物品"){
+            $lostList = LostModel::where('BusId','=',$BusId)->select();
+            $busInfo = BusModel::get($BusId);
+            foreach ($lostList as $lost){
+                $lost['busInfo'] = $busInfo->Interval;
+            }
+            $this->assign('busList',$busList);
+            $this->assign('lostList',$lostList);
+            return $view;
+        }elseif ($BusId == 0 && !empty($LossDate) && $LostInfo == "请描述丢失物品"){
+            $lostList = LostModel::where('LossDate','=',$LossDate)->select();
+            foreach ($lostList as $lost){
+                $busInfo = BusModel::get($lost->BusId);
+                $lost['busInfo'] = $busInfo->Interval;
+            }
+            $this->assign('busList',$busList);
+            $this->assign('lostList',$lostList);
+            return $view;
+        }elseif ($BusId == 0 && empty($LossDate) && $LostInfo != "请描述丢失物品"){
+            $lostList = LostModel::where('Description','LIKE','%'.$LostInfo.'%')->select();
+            foreach ($lostList as $lost){
+                $busInfo = BusModel::get($lost->BusId);
+                $lost['busInfo'] = $busInfo->Interval;
+            }
+            $this->assign('busList',$busList);
+            $this->assign('lostList',$lostList);
+            return $view;
+        }elseif ($BusId !=0 && !empty($LossDate) && $LostInfo == "请描述丢失物品"){
+            $lostList = LostModel::where('BusId','=',$BusId)
+                ->where('LossDate','=',$LossDate)
+                ->select();
+            foreach ($lostList as $lost){
+                $busInfo = BusModel::get($lost->BusId);
+                $lost['busInfo'] = $busInfo->Interval;
+            }
+            $this->assign('busList',$busList);
+            $this->assign('lostList',$lostList);
+            return $view;
+        }elseif ($BusId != 0 && empty($LossDate) && $LostInfo != "请描述丢失物品"){
+            $lostList = LostModel::where('BusId','=',$BusId)
+                ->where('Description','LIKE','%'.$LostInfo.'%')
+                ->select();
+            foreach ($lostList as $lost){
+                $busInfo = BusModel::get($lost->BusId);
+                $lost['busInfo'] = $busInfo->Interval;
+            }
+            $this->assign('busList',$busList);
+            $this->assign('lostList',$lostList);
+            return $view;
+        }elseif ($BusId == 0 && !empty($LossDate) && $LostInfo != "请描述丢失物品"){
+            $lostList = LostModel::where('LossDate','=',$LossDate)
+                ->where('Description','LIKE','%'.$LostInfo.'%')
+                ->select();
+            foreach ($lostList as $lost){
+                $busInfo = BusModel::get($lost->BusId);
+                $lost['busInfo'] = $busInfo->Interval;
+            }
+            $this->assign('busList',$busList);
+            $this->assign('lostList',$lostList);
+            return $view;
+        }elseif ($BusId != 0 && !empty($LossDate) && $LostInfo != "请描述丢失物品"){
+            $lostList = LostModel::where('LossDate','=',$LossDate)
+                ->where('Description','LIKE','%'.$LostInfo.'%')
+                ->where('BusId','=',$BusId)
+                ->select();
+            foreach ($lostList as $lost){
+                $busInfo = BusModel::get($lost->BusId);
+                $lost['busInfo'] = $busInfo->Interval;
+            }
+            $this->assign('busList',$busList);
+            $this->assign('lostList',$lostList);
+            return $view;
+        }
+        else{
+            return '没有相符合的遗失物品信息';
+        }
     }
 
 }
